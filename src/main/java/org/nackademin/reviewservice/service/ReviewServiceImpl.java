@@ -52,7 +52,7 @@ public class ReviewServiceImpl implements ReviewService {
                 reviewDto.getRoomId())) {
             throw new IllegalStateException(
                     "Kunden har inte bokat detta rum "
-                            + "och kan inte lÃ¤mna recension");
+                            + "och kan inte lämna en recension");
         }
         Review saved = reviewRepository.save(toEntity(reviewDto));
         return toDto(saved);
