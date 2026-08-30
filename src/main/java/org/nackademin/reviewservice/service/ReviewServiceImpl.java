@@ -37,6 +37,15 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public List<ReviewDto> getAllReviews() {
+        return reviewRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+
+    @Override
     public ReviewDto saveReview(ReviewDto reviewDto) {
         if (!bookingClient.customerHasBookedRoom(
                 reviewDto.getCustomerId(),
