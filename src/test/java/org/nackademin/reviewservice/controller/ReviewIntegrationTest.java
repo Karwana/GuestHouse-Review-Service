@@ -27,14 +27,12 @@ public class ReviewIntegrationTest {
 
     @Test
     void return200WhenGettingAllReviews() throws Exception {
-        mockMvc.perform(get("/api/reviews"))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/reviews")).andExpect(status().isOk());
     }
 
     @Test
     void return201WhenCreatingValidReview() throws Exception {
-        when(bookingClient.customerHasBookedRoom(6L, 6L))
-                .thenReturn(true);
+        when(bookingClient.customerHasBookedRoom(6L, 6L)).thenReturn(true);
 
         String validReviewJson = """
                 {
@@ -46,8 +44,8 @@ public class ReviewIntegrationTest {
                 """;
 
         mockMvc.perform(post("/api/reviews")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(validReviewJson))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(validReviewJson))
                 .andExpect(status().isCreated());
     }
 
@@ -63,8 +61,8 @@ public class ReviewIntegrationTest {
                 """;
 
         mockMvc.perform(post("/api/reviews")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidReviewJson))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(invalidReviewJson))
                 .andExpect(status().isBadRequest());
     }
 }

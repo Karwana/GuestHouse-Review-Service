@@ -17,42 +17,23 @@ public class ReviewServiceImpl implements ReviewService {
     private final BookingClient bookingClient;
 
     private ReviewDto toDto(Review review) {
-        return new ReviewDto(
-                review.getId(),
-                review.getCustomerId(),
-                review.getRoomId(),
-                review.getRating(),
-                review.getComment()
-        );
+        return new ReviewDto(review.getId(), review.getCustomerId(), review.getRoomId(), review.getRating(), review.getComment());
     }
 
     private Review toEntity(ReviewDto dto) {
-        return new Review(
-                dto.getId(),
-                dto.getCustomerId(),
-                dto.getRoomId(),
-                dto.getRating(),
-                dto.getComment()
-        );
+        return new Review(dto.getId(), dto.getCustomerId(), dto.getRoomId(), dto.getRating(), dto.getComment());
     }
 
     @Override
     public List<ReviewDto> getAllReviews() {
-        return reviewRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .toList();
+        return reviewRepository.findAll().stream().map(this::toDto).toList();
     }
 
 
     @Override
     public ReviewDto saveReview(ReviewDto reviewDto) {
-        if (!bookingClient.customerHasBookedRoom(
-                reviewDto.getCustomerId(),
-                reviewDto.getRoomId())) {
-            throw new IllegalStateException(
-                    "Kunden har inte bokat detta rum "
-                            + "och kan inte lämna en recension");
+        if (!bookingClient.customerHasBookedRoom(reviewDto.getCustomerId(), reviewDto.getRoomId())) {
+            throw new IllegalStateException("Kunden har inte bokat detta rum " + "och kan inte lämna en recension");
         }
         Review saved = reviewRepository.save(toEntity(reviewDto));
         return toDto(saved);
@@ -60,26 +41,17 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewDto> getReviewsByRoom(Long roomId) {
-        return reviewRepository.findByRoomId(roomId)
-                .stream()
-                .map(this::toDto)
-                .toList();
+        return reviewRepository.findByRoomId(roomId).stream().map(this::toDto).toList();
     }
 
     @Override
     public List<ReviewDto> getReviewsByCustomer(Long customerId) {
-        return reviewRepository.findByCustomerId(customerId)
-                .stream()
-                .map(this::toDto)
-                .toList();
+        return reviewRepository.findByCustomerId(customerId).stream().map(this::toDto).toList();
     }
 
     @Override
     public void deleteReview(Long id) {
-        reviewRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Recension hittades inte"));
+        reviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Recension hittades inte"));
         reviewRepository.deleteById(id);
     }
 }

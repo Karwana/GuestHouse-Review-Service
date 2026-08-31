@@ -23,17 +23,13 @@ public class ReviewController {
     }
 
     @GetMapping("/room/{roomId}")
-    public ResponseEntity<List<ReviewDto>> getReviewsByRoom(
-            @PathVariable Long roomId) {
+    public ResponseEntity<List<ReviewDto>> getReviewsByRoom(@PathVariable Long roomId) {
         return ResponseEntity.ok(reviewService.getReviewsByRoom(roomId));
     }
 
     @PostMapping
-    public ResponseEntity<ReviewDto> saveReview(
-            @Valid @RequestBody ReviewDto reviewDto) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(reviewService.saveReview(reviewDto));
+    public ResponseEntity<ReviewDto> saveReview(@Valid @RequestBody ReviewDto reviewDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.saveReview(reviewDto));
     }
 
     @DeleteMapping("/{id}")
