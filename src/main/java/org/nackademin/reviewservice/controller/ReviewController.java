@@ -35,4 +35,10 @@ public class ReviewController {
                 .status(HttpStatus.CREATED)
                 .body(reviewService.saveReview(reviewDto));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
+        reviewService.deleteReview(id);
+        return ResponseEntity.noContent().build();
+    }
 }
